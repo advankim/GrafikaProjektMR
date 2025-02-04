@@ -1,0 +1,43 @@
+<Window x:Class="GrafikaProjektMR.PickColor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Wybor koloru" Height="400" Width="400" Background="#FF2D2D30">
+    <Grid>
+        <StackPanel Margin="20">
+            <Label Content="Wybierz kolor:" Foreground="White" FontSize="16" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="R:" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Suwak dla koloru R -->
+                <Slider x:Name="sliderR" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged" Width="150" Margin="5"/>
+                <TextBox x:Name="txtR" Width="50" TextChanged="TxtR_TextChanged" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="G:" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Suwak dla koloru G -->
+                <Slider x:Name="sliderG" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged" Width="150" Margin="5"/>
+                <TextBox x:Name="txtG" Width="50" TextChanged="TxtG_TextChanged" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="B:" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Suwak dla koloru B -->
+                <Slider x:Name="sliderB" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged" Width="150" Margin="5"/>
+                <TextBox x:Name="txtB" Width="50" TextChanged="TxtB_TextChanged" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Content="H:" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Pole tekstowe dla wartosci H -->
+                <TextBox x:Name="txtH" Width="50" IsReadOnly="True" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+                <Label Content="S:" Margin="10,0,0,0" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Pole tekstowe dla wartosci S -->
+                <TextBox x:Name="txtS" Width="50" IsReadOnly="True" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+                <Label Content="V:" Margin="10,0,0,0" Foreground="White" VerticalAlignment="Center"/>
+                <!-- Pole tekstowe dla wartosci V -->
+                <TextBox x:Name="txtV" Width="50" IsReadOnly="True" Margin="5" Background="#FF3E3E42" Foreground="White" BorderBrush="Gray"/>
+            </StackPanel>
+            <!-- Podglad wybranego koloru -->
+            <Rectangle x:Name="colorPreview" Width="100" Height="50" Margin="10" Fill="Black" Stroke="Gray" StrokeThickness="1"/>
+            <!-- Przycisk OK -->
+            <Button Content="OK" Width="100" HorizontalAlignment="Center" Click="OkButton_Click" Background="#FF007ACC" Foreground="White" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,166 @@
+﻿<Window x:Class="GrafikaProjektMR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edytor Graficzny" 
+        Height="600" 
+        Width="1090">
+    <Grid>
+        <!-- Płótno do rysowania z obsługą zdarzeń myszy -->
+        <Canvas x:Name="paintSurface"
+                MouseDown="paintSurface_MouseDown"
+                MouseMove="paintSurface_MouseMove"
+                MouseLeftButtonDown="paintSurface_MouseLeftButtonDown"
+                MouseRightButtonDown="paintSurface_MouseRightButtonDown">
+            <Canvas.Background>
+                <SolidColorBrush Color="White" Opacity="1"/>
+            </Canvas.Background>
+        </Canvas>
+
+        <!-- Panel narzędziowy z opcjami rysowania i edycji -->
+        <ToolBarPanel VerticalAlignment="Top" Background="#FF2D2D30">
+            <ToolBar Background="#FF3E3E42">
+                <!-- Przyciski wyboru trybu rysowania -->
+                <Button x:Name="btnDraw"
+                        Content="Rysowanie dowolne"
+                        Click="btnDraw_Click" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"
+                        Height="30">
+                </Button>
+                <Button x:Name="btnPoints"
+                        Content="Rysuj punkty"
+                        Click="btnPoints_Click" 
+                        Width="80" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"
+                        Height="30">
+                </Button>
+
+                <!-- Podmenu linii -->
+                <Menu VerticalAlignment="Center" Background="#FF3E3E42" Foreground="White" Margin="5">
+                    <MenuItem Header="Linie" Background="#FF3E3E42" Foreground="White">
+                        <MenuItem x:Name="btnLines" 
+                                  Header="Rysuj linie" 
+                                  Click="btnLines_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="editLine" 
+                                  Header="Edytuj linie" 
+                                  Click="editLine_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="brokenLine" 
+                                  Header="Linia łamana" 
+                                  Click="brokenLine_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                    </MenuItem>
+                </Menu>
+
+                <!-- Podmenu figur -->
+                <Menu VerticalAlignment="Center" Background="#FF3E3E42" Foreground="White" Margin="5">
+                    <MenuItem Header="Figury" Background="#FF3E3E42" Foreground="White">
+                        <MenuItem x:Name="drawCircle" 
+                                  Header="Koło" 
+                                  Click="drawCircle_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="drawTriangle" 
+                                  Header="Trójkąt" 
+                                  Click="drawTriangle_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="drawRectangle" 
+                                  Header="Prostokąt" 
+                                  Click="drawRectangle_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="drawPolygon" 
+                                  Header="Wielokąt" 
+                                  Click="drawPolygon_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="drawPlus" 
+                                  Header="Plus" 
+                                  Click="drawPlus_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="drawStar" 
+                                  Header="Gwiazda" 
+                                  Click="drawStar_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                    </MenuItem>
+                </Menu>
+
+                <!-- Wybór koloru -->
+                <Rectangle Width="30" 
+                           Height="30" 
+                           Fill="Black" 
+                           x:Name="whichColor" 
+                           MouseLeftButtonDown="whichColor_MouseLeftButtonDown" 
+                           Margin="5"/>
+
+                <!-- Narzędzia do obsługi obrazów i filtrów -->
+                <Button Content="Dodaj obraz" 
+                        Width="100" 
+                        Height="30" 
+                        Click="OnAddImageClick" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"/>
+
+                <Button Content="Filtr dolnoprzepustowy" 
+                        Width="140" 
+                        Height="30" 
+                        Click="OnApplyLowPassFilterClick" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"/>
+
+                <Button Content="Macierz filtracji" 
+                        Width="120" 
+                        Height="30" 
+                        Click="OnApplyFilterMatrixClick" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"/>
+
+                <!-- Narzędzia zapisu i wymazywania -->
+                <Button Content="Zapisz jako..." 
+                        Width="100" 
+                        Height="30" 
+                        Click="OnSaveAsClick" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"/>
+
+                <Button Content="Gumka" 
+                        Width="60" 
+                        Height="30" 
+                        Click="OnEraserClick" 
+                        Background="#FF007ACC" 
+                        Foreground="White" 
+                        Margin="5"/>
+
+                <!-- Suwak przezroczystości -->
+                <StackPanel Orientation="Vertical" 
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center" 
+                            Margin="5">
+                    <Label Content="Przezroczystość:" 
+                           Foreground="White"/>
+                    <Slider x:Name="transparencySlider" 
+                            Minimum="0" 
+                            Maximum="100" 
+                            Value="100" 
+                            ValueChanged="OnTransparencySliderValueChanged" 
+                            Width="100" 
+                            Height="18"/>
+                </StackPanel>
+            </ToolBar>
+        </ToolBarPanel>
+    </Grid>
+</Window>
