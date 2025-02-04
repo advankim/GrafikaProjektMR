@@ -10,7 +10,8 @@
                 MouseDown="paintSurface_MouseDown"
                 MouseMove="paintSurface_MouseMove"
                 MouseLeftButtonDown="paintSurface_MouseLeftButtonDown"
-                MouseRightButtonDown="paintSurface_MouseRightButtonDown">
+                MouseRightButtonDown="paintSurface_MouseRightButtonDown"
+                MouseLeftButtonUp="paintSurface_MouseLeftButtonUp">
             <Canvas.Background>
                 <SolidColorBrush Color="White" Opacity="1"/>
             </Canvas.Background>
@@ -46,14 +47,14 @@
                                   Click="btnLines_Click" 
                                   Background="#FF007ACC" 
                                   Foreground="White"/>
-                        <MenuItem x:Name="editLine" 
-                                  Header="Edytuj linie" 
-                                  Click="editLine_Click" 
-                                  Background="#FF007ACC" 
-                                  Foreground="White"/>
                         <MenuItem x:Name="brokenLine" 
                                   Header="Linia łamana" 
                                   Click="brokenLine_Click" 
+                                  Background="#FF007ACC" 
+                                  Foreground="White"/>
+                        <MenuItem x:Name="editLine" 
+                                  Header="Edytuj linie" 
+                                  Click="editLine_Click" 
                                   Background="#FF007ACC" 
                                   Foreground="White"/>
                     </MenuItem>

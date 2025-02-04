@@ -56,3 +56,4 @@ C:\Users\advan\OneDrive\Pulpit\GrafikaProjektMR\obj\Debug\net8.0-windows\Grafika
 C:\Users\advan\OneDrive\Pulpit\GrafikaProjektMR\obj\Debug\net8.0-windows\ref\GrafikaProjektMR.dll
 C:\Users\advan\OneDrive\Pulpit\GrafikaProjektMR\obj\Debug\net8.0-windows\PickColor.baml
 C:\Users\advan\OneDrive\Pulpit\GrafikaProjektMR\obj\Debug\net8.0-windows\PickColor.g.cs
+C:\Users\advan\OneDrive\Pulpit\GrafikaProjektMR\obj\Debug\net8.0-windows\GrafikaProjektMR.sourcelink.json

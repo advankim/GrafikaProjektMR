@@ -30,12 +30,16 @@ namespace GrafikaProjektMR
         private bool isMovingStartPoint = false;
         private bool isMovingEndPoint = false;
 
+        private Rectangle previewRectangle = null;
+        private System.Windows.Shapes.Ellipse previewEllipse = null;
+        private Polygon previewTriangle = null;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        // Ustawienie koloru pędzla
+        //// Ustawienie koloru pędzla
         public void SetColor(Color color)
         {
             currentBrush = new SolidColorBrush(color);
@@ -128,14 +132,76 @@ namespace GrafikaProjektMR
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                Point position = e.GetPosition(paintSurface);
+
                 if (drawMode == 1)
                 {
-                    DrawFreehand(e.GetPosition(paintSurface));
+                    DrawFreehand(position);
                 }
                 else if (drawMode == 14)
                 {
-                    EraseElement(e.GetPosition(paintSurface));
+                    EraseElement(position);
                 }
+                else if (isDrawing)
+                {
+                    if (previewRectangle != null)
+                    {
+                        UpdateRectangleSize(position);
+                    }
+                    else if (previewEllipse != null)
+                    {
+                        UpdateEllipseSize(position);
+                    }
+                    else if (previewTriangle != null)
+                    {
+                        UpdateTriangleSize(position);
+                    }
+                }
+            }
+        }
+
+        private void UpdateRectangleSize(Point position)
+        {
+            double width = Math.Abs(position.X - currentPoint.X);
+            double height = Math.Abs(position.Y - currentPoint.Y);
+            previewRectangle.Width = width;
+            previewRectangle.Height = height;
+            Canvas.SetLeft(previewRectangle, Math.Min(position.X, currentPoint.X));
+            Canvas.SetTop(previewRectangle, Math.Min(position.Y, currentPoint.Y));
+        }
+
+        private void UpdateEllipseSize(Point position)
+        {
+            double width = Math.Abs(position.X - currentPoint.X);
+            double height = Math.Abs(position.Y - currentPoint.Y);
+            previewEllipse.Width = width;
+            previewEllipse.Height = height;
+            Canvas.SetLeft(previewEllipse, Math.Min(position.X, currentPoint.X));
+            Canvas.SetTop(previewEllipse, Math.Min(position.Y, currentPoint.Y));
+        }
+
+        private void UpdateTriangleSize(Point position)
+        {
+            double baseWidth = position.X - currentPoint.X;
+            double height = position.Y - currentPoint.Y;
+
+            Point p1 = new Point(currentPoint.X, currentPoint.Y);
+            Point p2 = new Point(currentPoint.X + baseWidth / 2, currentPoint.Y + height);
+            Point p3 = new Point(currentPoint.X - baseWidth / 2, currentPoint.Y + height);
+
+            previewTriangle.Points[0] = p1;
+            previewTriangle.Points[1] = p2;
+            previewTriangle.Points[2] = p3;
+        }
+
+        private void paintSurface_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isDrawing)
+            {
+                isDrawing = false;
+                previewRectangle = null;
+                previewEllipse = null;
+                previewTriangle = null;
             }
         }
 
@@ -182,10 +248,10 @@ namespace GrafikaProjektMR
                     DrawPolygon(e.GetPosition(paintSurface));
                     break;
                 case 5:
-                    DrawRectangle(e.GetPosition(paintSurface));
+                    StartDrawingRectangle(currentPoint);
                     break;
                 case 6:
-                    DrawCircle(e.GetPosition(paintSurface));
+                    StartDrawingEllipse(currentPoint);
                     break;
                 case 7:
                     DrawStar(e.GetPosition(paintSurface));
@@ -194,7 +260,7 @@ namespace GrafikaProjektMR
                     DrawPlus(e.GetPosition(paintSurface));
                     break;
                 case 11:
-                    DrawTriangle(e.GetPosition(paintSurface));
+                    StartDrawingTriangle(currentPoint);
                     break;
                 case 12:
                     DrawBrokenLine(e.GetPosition(paintSurface));
@@ -383,6 +449,48 @@ namespace GrafikaProjektMR
             paintSurface.Children.Add(line4);
         }
 
+        private void StartDrawingRectangle(Point position)
+        {
+            previewRectangle = new Rectangle
+            {
+                Stroke = currentBrush,
+                StrokeThickness = 1
+            };
+            Canvas.SetLeft(previewRectangle, position.X);
+            Canvas.SetTop(previewRectangle, position.Y);
+            paintSurface.Children.Add(previewRectangle);
+            isDrawing = true;
+        }
+
+        private void StartDrawingEllipse(Point position)
+        {
+            previewEllipse = new System.Windows.Shapes.Ellipse
+            {
+                Stroke = currentBrush,
+                StrokeThickness = 1
+            };
+            Canvas.SetLeft(previewEllipse, position.X);
+            Canvas.SetTop(previewEllipse, position.Y);
+            paintSurface.Children.Add(previewEllipse);
+            isDrawing = true;
+        }
+
+        private void StartDrawingTriangle(Point position)
+        {
+            previewTriangle = new Polygon
+            {
+                Stroke = currentBrush,
+                StrokeThickness = 1,
+                Points = new System.Windows.Media.PointCollection()
+            };
+            previewTriangle.Points.Add(position);
+            previewTriangle.Points.Add(position);
+            previewTriangle.Points.Add(position);
+            paintSurface.Children.Add(previewTriangle);
+            isDrawing = true;
+        }
+
+
         // Tworzenie trójkąta
         private Polygon CreateTriangle(double x, double y, double width, double height)
         {
@@ -390,19 +498,12 @@ namespace GrafikaProjektMR
             {
                 Stroke = currentBrush,
                 Points = new System.Windows.Media.PointCollection
-                {
-                    new Point(x, y - height),
-                    new Point(x - width / 2, y),
-                    new Point(x + width / 2, y)
-                }
-            };
-        }
-
-        // Rysowanie trójkąta
-        private void DrawTriangle(Point position)
         {
-            Polygon triangle = CreateTriangle(position.X, position.Y, 50, 50);
-            paintSurface.Children.Add(triangle);
+            new Point(x, y),
+            new Point(x + width / 2, y + height),
+            new Point(x - width / 2, y + height)
+        }
+            };
         }
 
         // Rysowanie linii łamanej
